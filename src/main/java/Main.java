@@ -30,16 +30,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        FindTranslationObjectVisitor visitor = new FindTranslationObjectVisitor();
-
-        CompilerEnvirons compilerEnvirons = new CompilerEnvirons();
-        compilerEnvirons.setLanguageVersion(Context.VERSION_ES6);
-
-        AstRoot ast = new Parser(compilerEnvirons).parse(getSource(), SOURCE_URI, 0);
-
-        ast.visitAll(visitor);
-
-        JSObjectHashMap translations = new JSObjectHashMap(visitor.getTranslationObject()).build();
+        JSObjectHashMap translations = new TranslationObjectFinder(getSource(), SOURCE_URI).find();
         HashMap<String, String> ptbr = (HashMap<String, String>) translations.get("pt-br");
 
         System.out.println(ptbr.get("%LABEL_POSITION_TYPE_WORLDWIDE%"));
